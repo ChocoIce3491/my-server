@@ -48,45 +48,23 @@ def split_items(text):
 # --- 2. データのロード環境 ---
 @st.cache_data(show_spinner=False)
 def load_all_data(grade):
-    search_dirs = [".", "quiz"]
+    # 💡 ここにGitHubで取得した「Raw」のURLをそのまま貼り付けてください
+    p = "ここにコピーしたRawのURLを貼り付ける"
     
-    if grade == "1級":
-        target_files = ["quiz_level1_data.csv", "世界遺産検定1級.xlsx - 基礎知識.csv"]
-        for sd in search_dirs:
-            if os.path.exists(sd):
-                for f in os.listdir(sd):
-                    if f.endswith(".csv") and "1級" in f:
-                        target_files.append(f)
+    # 万が一、URLが貼り付けられていない場合のセーフティ
+    if "http" not in p:
+        p = "quiz_level1_data.csv"
         
-        for sd in search_dirs:
-            for tf in set(target_files):
-                p = os.path.join(sd, tf)
-                if os.path.exists(p):
-                    for encoding in ['utf-8-sig', 'utf-8', 'cp932', 'shift_jis']:
-                        try:
-                            df = pd.read_csv(p, encoding=encoding)
-                            df.columns = df.columns.str.strip()
-                            if '地域' not in df.columns:
-                                df['地域'] = "大分類"
-                            return df.dropna(subset=['名称']).reset_index(drop=True)
-                        except:
-                            continue
-    else:
-        target_files = ["quiz_semi1_data.csv"]
-        for sd in search_dirs:
-            for tf in target_files:
-                p = os.path.join(sd, tf)
-                if os.path.exists(p):
-                    for encoding in ['utf-8-sig', 'utf-8', 'cp932', 'shift_jis']:
-                        try:
-                            df = pd.read_csv(p, encoding=encoding)
-                            df.columns = df.columns.str.strip()
-                            df = df.rename(columns={'エリア': '地域', '時代・王朝': '時代'})
-                            if '地域' not in df.columns:
-                                df['地域'] = "大分類"
-                            return df.dropna(subset=['名称']).reset_index(drop=True)
-                        except:
-                            continue
+    for encoding in ['utf-8-sig', 'utf-8', 'cp932', 'shift_jis']:
+        try:
+            df = pd.read_csv(p, encoding=encoding)
+            df.columns = df.columns.str.strip()
+            if '地域' not in df.columns:
+                df['地域'] = "大分類"
+            return df.dropna(subset=['名称']).reset_index(drop=True)
+        except:
+            continue
+            
     return pd.DataFrame()
 
 # --- 3. ダミー選択肢生成 ---
