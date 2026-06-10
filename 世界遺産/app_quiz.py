@@ -49,7 +49,7 @@ def split_items(text):
 @st.cache_data(show_spinner=False)
 def load_all_data(grade):
     # 💡 ここにGitHubで取得した「Raw」のURLをそのまま貼り付けてください
-    p = "ここにコピーしたRawのURLを貼り付ける"
+    p = "https://github.com/ChocoIce3491/my-server/raw/refs/heads/main/%E4%B8%96%E7%95%8C%E9%81%BA%E7%94%A3/quiz/quiz_level1_data.csv"
     
     # 万が一、URLが貼り付けられていない場合のセーフティ
     if "http" not in p:
