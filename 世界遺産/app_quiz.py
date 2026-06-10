@@ -194,7 +194,7 @@ def build_quiz_session(df_pool, df_all, is_exam=False, limit=60):
 # --- 5. アプリケーションコントロール ---
 st.sidebar.title("🎓 世界遺産検定システム")
 app_mode = st.sidebar.radio("モード選択", ["演習モード", "試験モード"])
-grade = st.sidebar.selectbox("対象の級", ["1級", "準1級"])
+grade = st.sidebar.selectbox("対象の級", ["1級"])
 
 df_master = load_all_data(grade)
 
